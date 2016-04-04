@@ -1,6 +1,6 @@
 # ElasticsearchSink2
 
-This is Flume-NG Sink for Elasticsarch => 2.0.
+This is Flume-NG Sink for Elasticsearch => 2.0.
 I developed this because the official version does not support Elasticsearch => 2.0 due to API changes.
 Hope Flume dev team will fix this soon.
 
