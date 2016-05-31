@@ -54,16 +54,6 @@ public class ElasticSearchTransportClient implements ElasticSearchClient {
 
     private Client client;
 
-    @VisibleForTesting
-    InetSocketTransportAddress[] getServerAddresses() {
-        return serverAddresses;
-    }
-
-    @VisibleForTesting
-    void setBulkRequestBuilder(BulkRequestBuilder bulkRequestBuilder) {
-        this.bulkRequestBuilder = bulkRequestBuilder;
-    }
-
     /**
      * Transport client for external cluster
      *
@@ -129,6 +119,16 @@ public class ElasticSearchTransportClient implements ElasticSearchClient {
         requestBuilderFactory.createIndexRequest(client, null, null, null);
     }
 
+    @VisibleForTesting
+    InetSocketTransportAddress[] getServerAddresses() {
+        return serverAddresses;
+    }
+
+    @VisibleForTesting
+    void setBulkRequestBuilder(BulkRequestBuilder bulkRequestBuilder) {
+        this.bulkRequestBuilder = bulkRequestBuilder;
+    }
+
     private void configureHostnames(String[] hostNames) {
         logger.warn(Arrays.toString(hostNames));
         serverAddresses = new InetSocketTransportAddress[hostNames.length];
@@ -156,7 +156,7 @@ public class ElasticSearchTransportClient implements ElasticSearchClient {
             bulkRequestBuilder = client.prepareBulk();
         }
 
-        IndexRequestBuilder indexRequestBuilder = null;
+        IndexRequestBuilder indexRequestBuilder;
         if (indexRequestBuilderFactory == null) {
             indexRequestBuilder = client
                     .prepareIndex(indexNameBuilder.getIndexName(event), indexType)
