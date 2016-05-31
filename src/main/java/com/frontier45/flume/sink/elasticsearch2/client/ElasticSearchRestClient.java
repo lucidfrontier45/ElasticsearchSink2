@@ -136,7 +136,7 @@ public class ElasticSearchRestClient implements ElasticSearchClient {
         }
 
         if (statusCode != HttpStatus.SC_OK) {
-            if (response.getEntity() != null) {
+            if (response != null && response.getEntity() != null) {
                 throw new EventDeliveryException(EntityUtils.toString(response.getEntity(), "UTF-8"));
             } else {
                 throw new EventDeliveryException("Elasticsearch status code was: " + statusCode);

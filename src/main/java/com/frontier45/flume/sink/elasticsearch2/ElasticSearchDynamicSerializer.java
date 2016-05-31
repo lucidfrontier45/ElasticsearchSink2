@@ -22,6 +22,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.flume.Context;
 import org.apache.flume.Event;
@@ -64,9 +65,9 @@ public class ElasticSearchDynamicSerializer implements
   private void appendHeaders(XContentBuilder builder, Event event)
       throws IOException {
     Map<String, String> headers = event.getHeaders();
-    for (String key : headers.keySet()) {
-      ContentBuilderUtil.appendField(builder, key,
-              headers.get(key).getBytes(charset));
+    for (Map.Entry<String, String> entry : headers.entrySet()) {
+      ContentBuilderUtil.appendField(builder, entry.getKey(),
+              entry.getValue().getBytes(charset));
     }
   }
 
