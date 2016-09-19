@@ -1,3 +1,5 @@
+## This project is not maintained. I strongly suggest you use Logstash instead.
+
 # ElasticsearchSink2
 
 This is Flume-NG Sink for Elasticsearch >= 2.0.
