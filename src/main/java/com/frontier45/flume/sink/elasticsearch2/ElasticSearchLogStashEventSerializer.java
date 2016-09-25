@@ -83,7 +83,7 @@ public class ElasticSearchLogStashEventSerializer implements
     }
 
     private void appendBody(XContentBuilder builder, Event event)
-            throws IOException, UnsupportedEncodingException {
+            throws IOException {
         byte[] body = event.getBody();
         ContentBuilderUtil.appendField(builder, "@message", body);
     }
@@ -127,9 +127,9 @@ public class ElasticSearchLogStashEventSerializer implements
         }
 
         builder.startObject("@fields");
-        for (String key : headers.keySet()) {
-            byte[] val = headers.get(key).getBytes(charset);
-            ContentBuilderUtil.appendField(builder, key, val);
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            byte[] val = entry.getValue().getBytes(charset);
+            ContentBuilderUtil.appendField(builder, entry.getKey(), val);
         }
         builder.endObject();
     }

@@ -1,14 +1,16 @@
+## This project is not maintained. I strongly suggest you use Logstash instead.
+
 # ElasticsearchSink2
 
-This is Flume-NG Sink for Elasticsearch => 2.0.
-I developed this because the official version does not support Elasticsearch => 2.0 due to API changes.
+This is Flume-NG Sink for Elasticsearch >= 2.0.
+I developed this because the official version does not support Elasticsearch >= 2.0 due to API changes.
 Hope Flume dev team will fix this soon.
 
 
 # Requirements
 
-- Flume-NG => 1.6
-- Elasticsearch => 2.0
+- Flume-NG >= 1.6
+- Elasticsearch >= 2.0
 
 # Build
 

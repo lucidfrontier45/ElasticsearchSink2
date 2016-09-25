@@ -66,6 +66,8 @@ public class ElasticSearchSink extends AbstractSink implements Configurable {
 
   private static final Logger logger = LoggerFactory
       .getLogger(ElasticSearchSink.class);
+  public static final String FAILED_TO_COMMIT_TRANSACTION_TRANSACTION_ROLLED_BACK = "Failed to commit transaction. Transaction rolled back.";
+  public static final String MISSING_PARAM = "Missing Param:";
 
   // Used for testing
   private boolean isLocal = false;
@@ -198,14 +200,14 @@ public class ElasticSearchSink extends AbstractSink implements Configurable {
       }
 
       if (ex instanceof Error || ex instanceof RuntimeException) {
-        logger.error("Failed to commit transaction. Transaction rolled back.",
+        logger.error(FAILED_TO_COMMIT_TRANSACTION_TRANSACTION_ROLLED_BACK,
             ex);
         Throwables.propagate(ex);
       } else {
-        logger.error("Failed to commit transaction. Transaction rolled back.",
+        logger.error(FAILED_TO_COMMIT_TRANSACTION_TRANSACTION_ROLLED_BACK,
             ex);
         throw new EventDeliveryException(
-            "Failed to commit transaction. Transaction rolled back.", ex);
+                FAILED_TO_COMMIT_TRANSACTION_TRANSACTION_ROLLED_BACK, ex);
       }
     } finally {
       txn.close();
@@ -221,7 +223,7 @@ public class ElasticSearchSink extends AbstractSink implements Configurable {
             context.getString(ElasticSearchSinkConstants.HOSTNAMES)).split(",");
       }
       Preconditions.checkState(serverAddresses != null
-          && serverAddresses.length > 0, "Missing Param:" + ElasticSearchSinkConstants.HOSTNAMES);
+          && serverAddresses.length > 0, MISSING_PARAM + ElasticSearchSinkConstants.HOSTNAMES);
     }
 
     if (StringUtils.isNotBlank(context.getString(ElasticSearchSinkConstants.INDEX_NAME))) {
@@ -314,11 +316,11 @@ public class ElasticSearchSink extends AbstractSink implements Configurable {
     }
 
     Preconditions.checkState(StringUtils.isNotBlank(indexName),
-        "Missing Param:" + ElasticSearchSinkConstants.INDEX_NAME);
+        MISSING_PARAM + ElasticSearchSinkConstants.INDEX_NAME);
     Preconditions.checkState(StringUtils.isNotBlank(indexType),
-        "Missing Param:" + ElasticSearchSinkConstants.INDEX_TYPE);
+        MISSING_PARAM + ElasticSearchSinkConstants.INDEX_TYPE);
     Preconditions.checkState(StringUtils.isNotBlank(clusterName),
-        "Missing Param:" + ElasticSearchSinkConstants.CLUSTER_NAME);
+        MISSING_PARAM + ElasticSearchSinkConstants.CLUSTER_NAME);
     Preconditions.checkState(batchSize >= 1, ElasticSearchSinkConstants.BATCH_SIZE
         + " must be greater than 0");
   }
@@ -392,7 +394,7 @@ public class ElasticSearchSink extends AbstractSink implements Configurable {
       } else if (matcher.group(2).equals("d")) {
         return TimeUnit.DAYS.toMillis(Integer.parseInt(matcher.group(1)));
       } else if (matcher.group(2).equals("w")) {
-        return TimeUnit.DAYS.toMillis(7 * Integer.parseInt(matcher.group(1)));
+        return TimeUnit.DAYS.toMillis(7L * Integer.parseInt(matcher.group(1)));
       } else if (matcher.group(2).equals("")) {
         logger.info("TTL qualifier is empty. Defaulting to day qualifier.");
         return TimeUnit.DAYS.toMillis(Integer.parseInt(matcher.group(1)));

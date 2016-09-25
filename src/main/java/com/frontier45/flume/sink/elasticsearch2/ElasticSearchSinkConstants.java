@@ -106,4 +106,6 @@ public class ElasticSearchSinkConstants {
   public static final String TTL_REGEX = "^(\\d+)(\\D*)";
   public static final String DEFAULT_SERIALIZER_CLASS = "com.frontier45.flume.sink.elasticsearch2.ElasticSearchLogStashEventSerializer";
   public static final String DEFAULT_INDEX_NAME_BUILDER_CLASS = "com.frontier45.flume.sink.elasticsearch2.TimeBasedIndexNameBuilder";
+
+  private ElasticSearchSinkConstants() {}
 }
